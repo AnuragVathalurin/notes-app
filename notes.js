@@ -24,6 +24,20 @@ const addNote = function (title, body) {
   }
 };
 
+const removeNote = function (title) {
+  const notes = loadNotes();
+  const filteredNotes = notes.filter(function (note) {
+    return note.title !== title;
+  });
+
+  if (notes.length === filteredNotes.length) {
+    console.log(chalk.red.inverse("Note does not exist!"));
+  } else {
+    console.log(chalk.green.inverse(title + " has been deleted."));
+    saveNotes(filteredNotes);
+  }
+};
+
 const loadNotes = function () {
   try {
     const dataBuffer = fs.readFileSync("notes.json");
@@ -42,4 +56,5 @@ const saveNotes = function (notes) {
 module.exports = {
   getNotes: getNotes,
   addNote: addNote,
+  removeNote: removeNote,
 };
